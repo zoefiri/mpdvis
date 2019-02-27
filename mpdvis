@@ -1,0 +1,27 @@
+#!/bin/env bash
+if [ $1 = 0 ]
+then
+	#pids=$(ps ax | grep "mpdvis 0" | cut -d ' ' -f 1)
+	for pid in $(ps -ef | grep "mpdvis 0" | awk '{print $2}')
+	do
+		[ $pid != $$ ] && kill $pid
+	done
+fi
+
+#################
+#if ran with 0 arg, put current album art into /tmp/albumart
+while [[ $1 == 0 ]]
+do
+	songdir=$(mpc -f %file% | head -1 | cut -d '/' -f 1)
+	if [ -f "/home/zoe/music/$songdir/*.png" ] 
+	then
+		cp /home/zoe/music/"$songdir"/*.png /tmp/albumart
+	else
+		cp /home/zoe/music/"$songdir"/*.jpg /tmp/albumart
+	fi
+	sleep 2
+done
+
+##################
+# display albumart if not ran with "0" arg
+feh -B black -R 2 --scale-down --g 300x300 /tmp/albumart
