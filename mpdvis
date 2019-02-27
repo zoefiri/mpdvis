@@ -1,7 +1,9 @@
 #!/bin/env bash
+#mpd music directory
+musicdir="/home/zoe/music"
+
 if [ $1 = 0 ]
 then
-	#pids=$(ps ax | grep "mpdvis 0" | cut -d ' ' -f 1)
 	for pid in $(ps -ef | grep "mpdvis 0" | awk '{print $2}')
 	do
 		[ $pid != $$ ] && kill $pid
@@ -15,9 +17,9 @@ do
 	songdir=$(mpc -f %file% | head -1 | cut -d '/' -f 1)
 	if [ -f "/home/zoe/music/$songdir/*.png" ] 
 	then
-		cp /home/zoe/music/"$songdir"/*.png /tmp/albumart
+		cp "$musicdir"/"$songdir"/*.png /tmp/albumart
 	else
-		cp /home/zoe/music/"$songdir"/*.jpg /tmp/albumart
+		cp "$musicdir"/"$songdir"/*.jpg /tmp/albumart
 	fi
 	sleep 2
 done
