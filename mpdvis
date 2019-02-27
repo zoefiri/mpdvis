@@ -3,7 +3,7 @@
 #mpd music directory
 musicdir="/home/zoe/music"
 
-if [ $1 -e 0 ]
+if [[ $1 == 0 ]]
 then
 	for pid in $(ps -ef | grep "mpdvis 0" | awk '{print $2}')
 	do
@@ -15,12 +15,12 @@ fi
 #if ran with 0 arg, put current album art into /tmp/albumart
 while [[ $1 == 0 ]]
 do
-	songdir=$(mpc -f %file% | head -1 | cut -d '/' -f 1)
+	songdir=$(mpc -f %file%)
 	if [ -f "/home/zoe/music/$songdir/*.png" ] 
 	then
-		cp "$musicdir"/"$songdir"/*.png /tmp/albumart
+		cp "$musicdir"/"${songdir%%/*}"/*.png /tmp/albumart
 	else
-		cp "$musicdir"/"$songdir"/*.jpg /tmp/albumart
+		cp "$musicdir"/"${songdir%%/*}"/*.jpg /tmp/albumart
 	fi
 	sleep 2
 done
