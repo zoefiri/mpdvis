@@ -1,19 +1,18 @@
 #!/bin/env bash
 
+feh -B black -R 2 --scale-down --g 300x300 /tmp/albumart &
+disown %1
 #mpd music directory
 musicdir="/home/zoe/music"
 
-if [[ $1 == 0 ]]
-then
-	for pid in $(ps -ef | grep "mpdvis 0" | awk '{print $2}')
-	do
-		[ $pid != $$ ] && kill $pid
-	done
-fi
+for pid in $(ps -ef | grep "mpdvis" | awk '{print $2}')
+do
+	[ "$pid" != $$ ] && kill $pid
+done
 
 #################
 #if ran with 0 arg, put current album art into /tmp/albumart
-while [[ $1 == 0 ]]
+while true
 do
 	songdir=$(mpc -f %file%)
 	if [ -f "/home/zoe/music/$songdir/*.png" ] 
@@ -24,7 +23,3 @@ do
 	fi
 	sleep 2
 done
-
-##################
-# display albumart if not ran with "0" arg
-feh -B black -R 2 --scale-down --g 300x300 /tmp/albumart
