@@ -14,8 +14,8 @@ done
 #if ran with 0 arg, put current album art into /tmp/albumart
 while true
 do
-	songdir=$(mpc -f %file%)
-	if [ -f "/home/zoe/music/$songdir/*.png" ] 
+	songdir=$(mpc -f %file% | head -1 | cut -d '/' -f 1)
+	if [ -f "/home/zoe/music/$songdir/"*".png" ] 
 	then
 		cp "$musicdir"/"${songdir%%/*}"/*.png /tmp/albumart
 	else
