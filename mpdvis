@@ -1,8 +1,8 @@
 #!/bin/env bash
 musicdir="/home/zoe/music" #set this to your MPD music dir
 
-[ -f /tmp/albumart ] && feh -B black -R 2 --scale-down --g 300x300 /tmp/albumart &
-[ -f /tmp/albumart ] && disown %1
+[[ -f /tmp/albumart ]] && feh -B black -R 2 --scale-down --g 300x300 /tmp/albumart &
+[[ -f /tmp/albumart ]] && disown %1
 
 for pid in $(ps -ef | grep "mpdvis" | awk '{print $2}')
 do
@@ -25,5 +25,4 @@ do
 		ln -s "$musicdir"/"${songdir%%/*}"/*.jpg /tmp/albumart
     fi
     mpc current --wait
-    echo fuck!
 done
