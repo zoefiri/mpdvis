@@ -16,10 +16,14 @@ while true
 do
 	songdir=$(mpc -f %file% | head -1 | cut -d '/' -f 1)
 	if [ -f "/home/zoe/music/$songdir/"*".png" ] 
-	then
-		cp "$musicdir"/"${songdir%%/*}"/*.png /tmp/albumart
-	else
-		cp "$musicdir"/"${songdir%%/*}"/*.jpg /tmp/albumart
-	fi
-	sleep 2
+    then
+        rm /tmp/albumart
+		ln -s "$musicdir"/"${songdir%%/*}"/*.png /tmp/albumart
+    fi
+    if [ -f "/home/zoe/music/$songdir/"*".jpg" ]
+    then
+        rm /tmp/albumart
+		ln -s "$musicdir"/"${songdir%%/*}"/*.jpg /tmp/albumart
+    fi
+    mpc current --wait
 done
