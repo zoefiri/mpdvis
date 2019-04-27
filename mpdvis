@@ -1,9 +1,8 @@
 #!/bin/env bash
+musicdir="/home/zoe/music" #set this to your MPD music dir
 
 [ -f /tmp/albumart ] && feh -B black -R 2 --scale-down --g 300x300 /tmp/albumart &
 [ -f /tmp/albumart ] && disown %1
-#mpd music directory
-musicdir="/home/zoe/music"
 
 for pid in $(ps -ef | grep "mpdvis" | awk '{print $2}')
 do
@@ -15,7 +14,7 @@ done
 while true
 do
 	songdir=$(mpc -f %file% | head -1 | cut -d '/' -f 1)
-	if [ -f "/home/zoe/music/$songdir/"*".png" ] 
+	if [ -f "$musicdir/$songdir/"*".png" ] 
     then
         rm /tmp/albumart
 		ln -s "$musicdir"/"${songdir%%/*}"/*.png /tmp/albumart
@@ -26,4 +25,5 @@ do
 		ln -s "$musicdir"/"${songdir%%/*}"/*.jpg /tmp/albumart
     fi
     mpc current --wait
+    echo fuck!
 done
